@@ -23,7 +23,7 @@ RUN    chmod 755 /src/manage.py \
     && /src/manage.py collectstatic --link --noinput --verbosity=0
 
 WORKDIR /src/
-VOLUME ["/var/tmp/nginx"]
+VOLUME ["/var/tmp/nginx", "/tmp"]
 
 EXPOSE 8000
 

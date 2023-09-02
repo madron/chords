@@ -13,6 +13,7 @@ services:
     build: .
     environment:
       - DEBUG=True
+    tmpfs: /tmp
     depends_on:
       - "db"
     links:
