@@ -74,6 +74,17 @@ files = [
 python-dateutil = ">=2.4"
 
 [[package]]
+name = "fontawesomefree"
+version = "6.4.2"
+description = "Font Awesome Free"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "fontawesomefree-6.4.2-py3-none-any.whl", hash = "sha256:ceaff7efc4fc39dadff3c3ff7298a7a1095403110d373f22456bb1c34ab6db02"},
+]
+
+[[package]]
 name = "psycopg"
 version = "3.1.10"
 description = "PostgreSQL database adapter for Python"
@@ -233,4 +244,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "311c7a5503edf3770e76ec7ab8cf3f1d65d7d2d04e34d62223e018bdad9c9639"
+content-hash = "1b866bcc7477f5e93d471e51402f1d8f0d4a57fe17449f1a0d9ce9b4f585aacd"
