@@ -1,0 +1,15 @@
+[
+{
+    "model": "chords.song",
+    "pk": 1,
+    "fields": {
+        "title": "Hey Jude",
+        "artist": "The Beatles",
+        "key": "F",
+        "time": 74,
+        "tempo": "4/4",
+        "year": 1968,
+        "chords": "{define: Bbmaj7/A}\r\n{define: Bb/F}\r\n{define: C7.(2/4)}\r\n\r\n{sov: Verse 1}\r\nHey [*|][F]Jude, don’t make it [*|][C]bad, take a [*|][C7]sad song and make it [*|][F]better\r\nRe[*|][Bb]member to let her into your [*|][F]heart, then you can [*|][C]start to [C7]make it [*|][F]better\r\nHey [*|][F]Jude, don’t be af[*|][C]raid, you were [*|][C7]made to go out and [*|][F]get her\r\nThe [*|][Bb]minute you let her under your [*|][F]skin, then you b[*|]e[C]gin to [C7]make it [*|][F]better\r\n{eov}\r\n\r\n\r\n{soc: Chorus 1}\r\n[*|][F7] And anytime you feel the[*|][Bb]pain, hey [Bbmaj7/A]Jude, [*|]re[Gm7]frain, don’t [Bb/F]carry the [*|][C7]world upon your [*|][F]shoulders\r\n[*|][F7] For well you know that it's a [*|][Bb]fool who [Bbmaj7/A]plays it [*|][Gm7]cool by [Bb/F]making his [*|][C7]world a little [*|][F]colder\r\n{eoc}\r\n\r\n\r\n{sob: Break 1}\r\n[*|][F]Na na na [*|][F7]na na, [*|][C7]na na na [*|][C7]na     [*|][C7][*(2/4)]\r\n{eob: Break}\r\n\r\n\r\n{sov: Verse 2}\r\nHey [F]Jude, don't let me [C]down, You have [C7]found her, now go and [F]get her\r\nRe[*|][Bb]member to let her into your [*|][F]heart Then you can [*|][C]start to [C7]make it [*|][F]better\r\n{eov}\r\n\r\n\r\n{soc: Chorus 2}\r\n[*|][F7] So let it out and let it [*|][Bb]in, hey [Bbmaj7/A]Jude, b[*|]e[C]gin. You're [Bb/F]waiting for [*|][C7]someone to pe[*|]r[F]form with\r\n[*|][F7] And don't you know that it's just [*|][Bb]you, hey [Bbmaj7/A]Jude, you'll [*|][Gm7]do [Bb/F]the movement you [*|][C7]need is on your [*|][F]shoulder\r\n{eoc}\r\n\r\n\r\n{sob: Break 2}\r\n[*|][F]Na na na [*|][F7]na na, [*|][C7]na na na [*|][C7]na     [*|][C7][*(2/4)]\r\n{eob: Break}\r\n\r\n\r\n{sov: Verse 3}\r\nHey [*|][F]Jude, don’t make it [*|][C]bad, take a [*|][C7]sad song and make it [*|][F]better\r\nThe [*|][Bb]minute you let her under your [*|][F]skin, then you b[*|]e[C]gin to [C7]make it\r\n[*|][F]better better better better [*|][F]better better, oh\r\n{eov}\r\n\r\n\r\n{sob: Outro}\r\n[*|][F]Na na na [*|][Eb]nananana, [*|][Bb]nananana,  hey [*|][F]Jude\r\n{eob}"
+    }
+}
+]
