@@ -1,5 +1,7 @@
+from typing import Any, Dict
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from . import constants
 
 
 class Song(models.Model):
@@ -20,3 +22,11 @@ class Song(models.Model):
         if self.artist:
             return '{} ({})'.format(self.title, self.artist)
         return self.title
+
+    def get_data(self) -> Dict[str, Any]:
+        data = dict()
+        for key in constants.ATTRIBUTES:
+            value = getattr(self, key)
+            if value:
+                data[key] = value
+        return data

@@ -30,8 +30,8 @@ class SongAdminTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_detail(self):
-        shipment = factories.SongFactory()
-        url = reverse('admin:chords_song_change', args=(shipment.pk,))
+        obj = factories.SongFactory()
+        url = reverse('admin:chords_song_change', args=(obj.pk,))
         with self.assertNumQueries(5):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -39,8 +39,27 @@ class SongAdminTest(TestCase):
             response = self.client.get(url)
 
     def test_delete(self):
-        shipment = factories.SongFactory()
-        url = reverse('admin:chords_song_delete', args=(shipment.pk,))
+        obj = factories.SongFactory()
+        url = reverse('admin:chords_song_delete', args=(obj.pk,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+    def test_source(self):
+        obj = factories.SongFactory(title='Let it be', artist='The Beatles', key='C', chords='{sov}\nWhen I [C]find myself in [G]times of trouble\n{eov}')
+        url = reverse('admin:chords_song_source', args=(obj.pk,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers['Content-Type'], 'text/plain')
+        self.assertEqual(response.headers['Content-Disposition'], 'attachment; filename="the-beatles-let-it-be.cho"')
+        lines = response.content.splitlines()
+        self.assertEqual(lines[0], b'{title: Let it be}')
+
+    def test_pdf_chords(self):
+        obj = factories.SongFactory(title='Amazing grace')
+        url = reverse('admin:chords_song_pdf_chords', args=(obj.pk,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers['Content-Type'], 'application/pdf')
+        self.assertEqual(response.headers['Content-Disposition'], 'attachment; filename="amazing-grace-chords.pdf"')
+        self.assertEqual(response.headers['Content-Length'], '10')
+        self.assertEqual(len(response.content), 10)
