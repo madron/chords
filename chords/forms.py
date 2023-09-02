@@ -10,6 +10,6 @@ class SongForm(forms.ModelForm):
             title=forms.TextInput(attrs=dict(size=40)),
             artist=forms.TextInput(attrs=dict(size=40)),
             key=forms.TextInput(attrs=dict(size=10)),
-            tempo=forms.TextInput(attrs=dict(size=20)),
+            tempo=forms.TextInput(attrs=dict(size=10)),
             chords=forms.Textarea(attrs=dict(rows=70, cols=150)),
         )

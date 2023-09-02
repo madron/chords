@@ -8,4 +8,9 @@ class SongAdmin(admin.ModelAdmin):
     list_display = ['title', 'artist', 'key', 'time', 'tempo', 'year']
     list_filter = ['artist']
     search_fields = ['title', 'artist']
+    fields = [
+        ('title', 'artist'),
+        ('key', 'time', 'tempo', 'year'),
+        'chords',
+    ]
     form = forms.SongForm
