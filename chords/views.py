@@ -29,3 +29,16 @@ class SongPdfChordsView(PermissionRequiredMixin, DetailView):
         response = HttpResponse(content, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
         return response
+
+
+class SongPdfLyricsView(PermissionRequiredMixin, DetailView):
+    model = models.Song
+    permission_required = 'chords.view_song'
+
+    def render_to_response(self, context, **response_kwargs):
+        data = context['object'].get_data()
+        filename = utils.get_song_filename(data, 'pdf', suffix='lyrics')
+        _, content = utils.get_chordpro_result(data, check=True, lyrics_only=True)
+        response = HttpResponse(content, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+        return response

@@ -62,3 +62,12 @@ class SongAdminTest(TestCase):
         self.assertEqual(response.headers['Content-Type'], 'application/pdf')
         self.assertEqual(response.headers['Content-Disposition'], 'attachment; filename="amazing-grace-chords.pdf"')
         self.assertGreater(len(response.content), 1000)
+
+    def test_pdf_lyrics(self):
+        obj = factories.SongFactory(title='Let it be', artist='The Beatles', key='C', chords='{sov}\nWhen I [C]find myself in [G]times of trouble\n{eov}')
+        url = reverse('admin:chords_song_pdf_lyrics', args=(obj.pk,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers['Content-Type'], 'application/pdf')
+        self.assertEqual(response.headers['Content-Disposition'], 'attachment; filename="the-beatles-let-it-be-lyrics.pdf"')
+        self.assertGreater(len(response.content), 1000)

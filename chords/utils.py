@@ -36,7 +36,7 @@ def get_chordpro_result(data: Dict[str, Any], check: bool=False, lyrics_only: bo
     source_file.seek(0)
     command = 'chordpro -o {} {}'.format(output_file.name, source_file.name)
     if lyrics_only:
-        command = ' '.join(command, '--lyrics-only')
+        command = ' '.join([command, '--lyrics-only'])
     result = subprocess.run([command], shell=True, capture_output=True, check=check)
     source_file.close()
     output_file.seek(0)

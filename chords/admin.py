@@ -11,7 +11,7 @@ from . import views
 
 @admin.register(models.Song)
 class SongAdmin(admin.ModelAdmin):
-    list_display = ['title', 'artist', 'pdf_chords_link', 'key', 'time', 'tempo', 'year', 'source_link']
+    list_display = ['title', 'artist', 'pdf_chords_link', 'pdf_lyrics_link', 'key', 'time', 'tempo', 'year', 'source_link']
     list_filter = ['artist']
     search_fields = ['title', 'artist']
     fields = [
@@ -34,6 +34,10 @@ class SongAdmin(admin.ModelAdmin):
                 self.admin_site.admin_view(views.SongPdfChordsView.as_view()),
                 name=self.get_url_name('pdf_chords')
             ),
+            path('<slug:pk>/pdf/lyrics/',
+                self.admin_site.admin_view(views.SongPdfLyricsView.as_view()),
+                name=self.get_url_name('pdf_lyrics')
+            ),
             path('<slug:pk>/source/',
                 self.admin_site.admin_view(views.SongSourceView.as_view()),
                 name=self.get_url_name('source')
@@ -48,6 +52,14 @@ class SongAdmin(admin.ModelAdmin):
         icon = '<i class="fa-regular fa-file-pdf fa-lg"></i>'
         return format_html('<a title="{}" href="{}">{}</a>', mark_safe(filename), url, mark_safe(icon))
     pdf_chords_link.short_description = _('chords')
+
+    def pdf_lyrics_link(self, obj):
+        name = 'admin:{}'.format(self.get_url_name('pdf_lyrics'))
+        url = reverse(name, args=(obj.pk,))
+        filename = utils.get_song_filename(obj.get_data(), 'pdf', suffix='lyrics')
+        icon = '<i class="fa-regular fa-file-pdf fa-lg"></i>'
+        return format_html('<a title="{}" href="{}">{}</a>', mark_safe(filename), url, mark_safe(icon))
+    pdf_lyrics_link.short_description = _('lyrics')
 
     def source_link(self, obj):
         name = 'admin:{}'.format(self.get_url_name('source'))
