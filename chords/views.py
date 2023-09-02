@@ -25,7 +25,7 @@ class SongPdfChordsView(PermissionRequiredMixin, DetailView):
     def render_to_response(self, context, **response_kwargs):
         data = context['object'].get_data()
         filename = utils.get_song_filename(data, 'pdf', suffix='chords')
-        content = 'to be done'
+        _, content = utils.get_chordpro_result(data, check=True)
         response = HttpResponse(content, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
         return response

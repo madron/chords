@@ -45,6 +45,7 @@ class GetSourceTest(TestCase):
         self.assertEqual(lines[5], '{eov}')
         self.assertEqual(len(lines), 6)
 
+
 class GetSongFilenameTest(TestCase):
     def test_title(self):
         data = dict(title='Let it be')
@@ -65,3 +66,13 @@ class GetSongFilenameTest(TestCase):
         data = dict(artist='The Beatles', title='Let it be')
         name = utils.get_song_filename(data, 'pdf', suffix='chords')
         self.assertEqual(name, 'the-beatles-let-it-be-chords.pdf')
+
+
+class GetChordproResultTest(TestCase):
+    def test_ok(self):
+        data = dict(title='Let it be', key='C', chords='{sov}\nXWhen I [C]find myself in [G]times of trouble\n{eov}')
+        result, content = utils.get_chordpro_result(data)
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout, b'')
+        self.assertEqual(result.stderr, b'')
+        self.assertGreater(len(content), 1000)

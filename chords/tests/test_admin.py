@@ -61,5 +61,4 @@ class SongAdminTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers['Content-Type'], 'application/pdf')
         self.assertEqual(response.headers['Content-Disposition'], 'attachment; filename="amazing-grace-chords.pdf"')
-        self.assertEqual(response.headers['Content-Length'], '10')
-        self.assertEqual(len(response.content), 10)
+        self.assertGreater(len(response.content), 1000)
