@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib import messages
 from django.urls import path, reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
@@ -27,6 +28,17 @@ class SongAdmin(admin.ModelAdmin):
     def get_url_name(self, name):
         info = dict(app_label=self.model._meta.app_label, model_name=self.model._meta.model_name, name=name)
         return '{app_label}_{model_name}_{name}'.format(**info)
+
+    def save_model(self, request, obj, *args, **kwargs):
+        result, _ = utils.get_chordpro_result(obj.get_data(), source_only=True)
+        if result.returncode == 0:
+            if result.stderr:
+                msg = utils.format_html_from_bytes(result.stderr)
+                messages.add_message(request, messages.WARNING, msg)
+        else:
+            msg = utils.format_html_from_bytes(result.stderr)
+            messages.add_message(request, messages.ERROR, msg)
+        super().save_model(request, obj, *args, **kwargs)
 
     def get_urls(self):
         urls = [

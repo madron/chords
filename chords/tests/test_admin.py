@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.test import TestCase
 from django.urls import reverse
 from authentication.tests.factories import UserFactory
@@ -71,3 +72,32 @@ class SongAdminTest(TestCase):
         self.assertEqual(response.headers['Content-Type'], 'application/pdf')
         self.assertEqual(response.headers['Content-Disposition'], 'attachment; filename="the-beatles-let-it-be-lyrics.pdf"')
         self.assertGreater(len(response.content), 1000)
+
+    def test_conversion_ok(self):
+        data = dict(title='Let it be', chords='{sov}\nWhen I [C]find myself in [G]times of trouble\n{eov}')
+        url = reverse('admin:chords_song_add')
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(response, expected_url=self.list, fetch_redirect_response=True)
+        msgs = [m for m in messages.get_messages(response.wsgi_request)]
+        self.assertEqual(msgs[0].level, messages.SUCCESS)
+        self.assertEqual(len(msgs), 1)
+
+    def test_conversion_warning(self):
+        data = dict(title='Let it be', chords='{sov}\n[C/F]\n{eov}')
+        url = reverse('admin:chords_song_add')
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(response, expected_url=self.list, fetch_redirect_response=True)
+        msgs = [m for m in messages.get_messages(response.wsgi_request)]
+        self.assertEqual(msgs[0].level, messages.WARNING)
+        self.assertIn('Unknown chord: C/F', msgs[0].message)
+        self.assertEqual(len(msgs), 2)
+
+    def test_conversion_error(self):
+        data = dict(title='Let it be', chords='{sox}\n[C/F]\n{eov}')
+        url = reverse('admin:chords_song_add')
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(response, expected_url=self.list, fetch_redirect_response=True)
+        msgs = [m for m in messages.get_messages(response.wsgi_request)]
+        self.assertEqual(msgs[0].level, messages.ERROR)
+        self.assertIn('Unknown chord: C/F', msgs[0].message)
+        self.assertEqual(len(msgs), 2)

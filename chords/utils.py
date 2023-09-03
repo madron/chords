@@ -1,20 +1,23 @@
 import subprocess
 import tempfile
-from typing import Any, Dict
+from typing import Any, Dict, Tuple
+from django.utils.html import format_html_join
 from django.utils.text import slugify
 from . import constants
 
 
-def get_source(data: Dict[str, Any])-> str:
+def get_source(data: Dict[str, Any], chords_only: bool = False)-> str:
     directives = []
-    for key in constants.DIRECTIVES:
-        value = data.get(key, None)
-        if value:
-            directives.append('{{{}: {}}}'.format(key, value))
-    directives.append('')
+    if not chords_only:
+        for key in constants.DIRECTIVES:
+            value = data.get(key, None)
+            if value:
+                directives.append('{{{}: {}}}'.format(key, value))
+        directives.append('')
+        directives.append('')
     preamble = '\n'.join(directives)
     chords = data.get('chords', '')
-    return '{}\n{}'.format(preamble, chords)
+    return '{}{}'.format(preamble, chords)
 
 
 def get_song_filename(data: Dict[str, Any], extension: str, suffix: str='')-> str:
@@ -28,8 +31,13 @@ def get_song_filename(data: Dict[str, Any], extension: str, suffix: str='')-> st
     return '{}.{}'.format(slug, extension)
 
 
-def get_chordpro_result(data: Dict[str, Any], check: bool=False, lyrics_only: bool=False):
-    source = get_source(data)
+def get_chordpro_result(
+        data: Dict[str, Any],
+        check: bool=False,
+        lyrics_only: bool=False,
+        source_only: bool=False,
+    ) -> Tuple[subprocess.CompletedProcess, bytes]:
+    source = get_source(data, chords_only=source_only)
     source_file = tempfile.NamedTemporaryFile(mode='w')
     output_file = tempfile.NamedTemporaryFile(mode='rb')
     source_file.write(source)
@@ -43,3 +51,8 @@ def get_chordpro_result(data: Dict[str, Any], check: bool=False, lyrics_only: bo
     content = output_file.read()
     output_file.close()
     return result, content
+
+
+def format_html_from_bytes(data: bytes):
+    text = data.decode('utf-8')
+    return format_html_join("", "{}<br>", [(l,) for l in text.splitlines()])

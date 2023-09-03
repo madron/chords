@@ -45,6 +45,14 @@ class GetSourceTest(TestCase):
         self.assertEqual(lines[5], '{eov}')
         self.assertEqual(len(lines), 6)
 
+    def test_chords_only(self):
+        data = dict(title='Let it be', key='C', chords='{sov}\nWhen I [C]find myself in [G]times of trouble\n{eov}')
+        lines = utils.get_source(data, chords_only=True).splitlines()
+        self.assertEqual(lines[0], '{sov}')
+        self.assertEqual(lines[1], 'When I [C]find myself in [G]times of trouble')
+        self.assertEqual(lines[2], '{eov}')
+        self.assertEqual(len(lines), 3)
+
 
 class GetSongFilenameTest(TestCase):
     def test_title(self):
