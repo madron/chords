@@ -8,7 +8,9 @@ from . import constants
 
 def get_source(data: Dict[str, Any], chords_only: bool = False)-> str:
     directives = []
-    if not chords_only:
+    if chords_only:
+        directives.append('{{title: {}}}'.format(data.get('title', '')))
+    else:
         for key in constants.DIRECTIVES:
             value = data.get(key, None)
             if value:
